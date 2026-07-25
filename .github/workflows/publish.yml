@@ -30,7 +30,9 @@ jobs:
       - uses: gradle/actions/setup-gradle@v4
 
       - name: Publish
+        # GITHUB_ACTOR is already a default env var in Actions (do NOT set it —
+        # the GITHUB_ prefix is reserved and setting it fails workflow startup).
+        # GITHUB_TOKEN is the one whitelisted exception and must be mapped.
         run: ./gradlew publish -PcatalogVersion=${{ steps.version.outputs.value }} --no-daemon
         env:
-          GITHUB_ACTOR: ${{ github.actor }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
