@@ -67,9 +67,19 @@ versionCatalogs {
 
 ## Publishing (maintainer)
 
+**Preferred — push a version tag; CI does the rest.** The
+[`publish.yml`](.github/workflows/publish.yml) workflow triggers on `v*` tags,
+derives the catalog version from the tag, and publishes with the built-in
+`GITHUB_TOKEN` (no personal PAT needed):
+
 ```bash
-# GitHub Packages (default; consumers need a GitHub token to read)
-GITHUB_ACTOR=gowthamraj07 GITHUB_TOKEN=*** ./gradlew publish
+git tag v2026.07.0 && git push origin v2026.07.0
+```
+
+**Manual fallback** (needs a PAT with `write:packages`):
+
+```bash
+GITHUB_ACTOR=gowthamraj07 GITHUB_TOKEN=*** ./gradlew publish -PcatalogVersion=2026.07.0
 ```
 
 For **truly public, no-auth** consumption, publish to Maven Central instead

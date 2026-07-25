@@ -5,7 +5,9 @@ plugins {
 
 group = "io.github.gowthamraj07"
 // Calendar-versioned: YYYY.MM.PATCH — bump PATCH for same-month revisions.
-version = "2026.07.0"
+// CI derives this from the git tag (e.g. tag `v2026.07.0` -> `2026.07.0`) via
+// -PcatalogVersion=...; falls back to this literal for local publishes.
+version = (findProperty("catalogVersion") as String?) ?: "2026.07.0"
 
 catalog {
     versionCatalog {
