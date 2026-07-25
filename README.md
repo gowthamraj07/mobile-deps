@@ -21,9 +21,12 @@ dependencyResolutionManagement {
         maven {
             url = uri("https://maven.pkg.github.com/gowthamraj07/mobile-deps")
             // GitHub Packages requires auth to READ, even for public repos.
-            // Put these in ~/.gradle/gradle.properties (never commit them):
-            //   gpr.user=gowthamraj07
-            //   gpr.key=<a PAT with read:packages scope>
+            // Each consumer authenticates as THEMSELVES — their own GitHub
+            // username and their own PAT (read:packages scope), NOT the
+            // package owner's. Put these in ~/.gradle/gradle.properties
+            // (never commit them):
+            //   gpr.user=<your-own-github-username>
+            //   gpr.key=<your-own-PAT with read:packages scope>
             credentials {
                 username = providers.gradleProperty("gpr.user").orNull
                     ?: System.getenv("GITHUB_ACTOR")
