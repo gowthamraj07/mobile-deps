@@ -13,7 +13,7 @@ tight **Kotlin ↔ CMP ↔ KSP ↔ AGP** cluster, which must move in lockstep.
 | | **Gen A** | **Gen B** | **Gen C (baseline)** |
 |---|---|---|---|
 | Status | superseded | superseded | **current** |
-| Verified by | NEPtune-Mobile | DriveSmart | AdaptiveVol, cmp-template |
+| Verified by | app A | app B | apps C, D |
 | kotlin | `2.1.21` | `2.2.21` | **`2.3.21`** |
 | agp | `8.10.0` | `8.11.1` | **`8.13.2`** |
 | compose-multiplatform | `1.7.0` | `1.8.2` | **`1.11.1`** |
@@ -46,7 +46,7 @@ tight **Kotlin ↔ CMP ↔ KSP ↔ AGP** cluster, which must move in lockstep.
 ## Candidate libraries — verified on Gen C (2026-07-25)
 
 All Tier-2 libraries were built against Gen C (Kotlin 2.3.21 / CMP 1.11.1 / AGP
-8.13.2) in an isolated cmp-template worktree: multiplatform libs added to
+8.13.2) in an isolated template worktree: multiplatform libs added to
 commonMain/iosMain, Android-only to androidMain, Kotest split across commonTest
 (engine/assertions/property) + androidUnitTest (runner-junit5). Checks:
 `compileKotlinIosSimulatorArm64` (iOS klib ABI — the decisive test), `assembleDebug`
@@ -75,15 +75,15 @@ plugins* (need a real `google-services.json`; they're AGP-bound, not Kotlin-ABI
 sensitive) and the `io.ktor.plugin` server plugin. The Firebase/Ktor *library*
 artifacts above are verified — only the plugins are unproven.
 
-**Byproduct — pre-existing cmp-template bug (not a catalog issue):** compiling the
-template's `commonTest` for iOS surfaced `Name contains illegal characters: ","` in
-`MeetingSilencerTest.kt` / `NoiseClassifierTest.kt` — backtick test names with commas
-are illegal Kotlin/Native identifiers. CI only ever compiles tests for JVM/Android, so
-this was latent. Worth fixing in cmp-template (rename those tests) independent of the catalog.
+**Byproduct — a template test-compile quirk (not a catalog issue):** compiling
+`commonTest` for iOS surfaced `Name contains illegal characters: ","` — backtick test
+names containing commas are illegal Kotlin/Native identifiers. CI only ever compiles
+tests for JVM/Android, so this was latent. Worth fixing (rename those tests) independent
+of the catalog.
 
 ## How to verify a candidate
 
-1. In a Gen C app (or a throwaway `cmp-template` clone), add the dependency from
+1. In a Gen C app (or a throwaway template clone), add the dependency from
    the catalog.
 2. `./gradlew :composeApp:assembleDebug` **and** a native build
    (`:composeApp:linkDebugFrameworkIosSimulatorArm64`) — the iOS klib ABI is
@@ -91,12 +91,3 @@ this was latent. Worth fixing in cmp-template (rename those tests) independent o
 3. If green, move the row into the generation table and drop the `[UNVERIFIED]`
    marker in `catalog/libs.versions.toml`. If not, record the failing version +
    the earliest working one here.
-
-## Migration status
-
-| app | current gen | target | notes |
-|---|---|---|---|
-| AdaptiveVol | **C** | — | baseline |
-| cmp-template | **C** | — | baseline |
-| DriveSmart | B | C | needs Kotlin 2.2→2.3, verify Ktor/Coil/Firebase |
-| NEPtune-Mobile | A | C | needs Kotlin 2.1→2.3, verify Ktor/Coil/Kotest/Firebase/compottie/filekit |

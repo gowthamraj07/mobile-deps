@@ -6,7 +6,7 @@
 # KNOWN-GOOD.md for the verified toolchain-compatibility matrix.
 #
 # TIER 1 (below "Toolchain" … "Publishing"): build-verified on Kotlin 2.3.21 by
-#         two shipping apps (AdaptiveVol, cmp-template).
+#         two shipping apps.
 # TIER 2 (bottom section): libraries only used by apps still on older Kotlin —
 #         also build-verified on Gen C 2026-07-25 (library artifacts; the
 #         google-services/firebase-crashlytics/ktor plugins remain unproven).
@@ -186,7 +186,7 @@ espresso-idling-resource = { module = "androidx.test.espresso:espresso-idling-re
 
 # =============================================================================
 # Verified on Gen C (Kotlin 2.3.21) 2026-07-25 — see KNOWN-GOOD.md. These were
-# pinned at the versions the older apps (DriveSmart / NEPtune-Mobile) shipped, then
+# pinned at the versions the older apps shipped, then
 # built green against the Tier-1 toolchain (iOS klib ABI + Android). coil-core
 # declares an old Skiko that resolves up to CMP's — benign warning, single Skiko.
 # =============================================================================
