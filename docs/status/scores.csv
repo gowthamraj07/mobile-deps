@@ -1,0 +1,6 @@
+date,module,axis,score,reqs,bugs,gaps
+2026-10-22,catalog-coverage-coherence,A1,70,6,2,2
+2026-10-22,consumption-contract,A1,65,5,1,1
+2026-10-22,version-update-hygiene,A2,40,6,2,2
+2026-10-22,docs-compatibility-matrix,A2,80,7,1,1
+2026-10-22,publishing-github-packages,EN,60,7,1,1
